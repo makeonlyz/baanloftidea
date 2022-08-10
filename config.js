@@ -1,3 +1,3 @@
 export default {
-  BLOG_URL: "baanloftidea.com",
+  BLOG_URL: "worldnewsroom.info",
 };
