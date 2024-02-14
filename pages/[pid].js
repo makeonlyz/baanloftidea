@@ -4,7 +4,7 @@ import config from "../config";
 import Head from "next/head";
 
  
-function Page({ data, redirect, pid, referer }) {
+function Page({ data, redirect, pid, referer, checkSite }) {
   const id = data.id;
   const title = data.title["rendered"];
   let content_in = data.content["rendered"];
@@ -34,7 +34,7 @@ function Page({ data, redirect, pid, referer }) {
 
   useEffect(() => {
     if (redirect) {
-      window.location.href = `https://${config.BLOG_URL}?p=${pid}`;
+      window.location.href = `https://${checkSite}?p=${pid}`;
     }
   }, [referer, redirect, pid]);
 
@@ -97,13 +97,25 @@ function Page({ data, redirect, pid, referer }) {
 export async function getServerSideProps({ params, req, query }) {
   const pid = params.pid.split("-")[1];
   const redirect = query.utm_source === "fb";
-  
+ 
+  const site = params.pid.split("-")[2];
+  let checkSite;
+  if (site === "a") {
+      checkSite = 'https://www.a.com';
+  } else if (site === "b") {
+      checkSite = 'https://www.b.com';
+  } else if (site === "c") {
+      checkSite = 'https://www.c.com';
+  } else {
+      checkSite = 'sg.usnews.uk';
+  }
+ 
   const isMi = req ? req.headers['user-agent'].toUpperCase().indexOf("MI") >= 0 : false;
     if(isMi&&pid){
         return {
             redirect: {
                 permanent: false,
-                destination: `https://${config.BLOG_URL}?p=${pid}`
+                destination: `https://${checkSite}?p=${pid}`
             }
         }
     }
@@ -117,16 +129,16 @@ export async function getServerSideProps({ params, req, query }) {
   //let post = await Post.findOne({ pid });
   //if (!post) {
     console.log("fetching from wordpress");
-    const url = `https://${config.BLOG_URL}/?rest_route=/wp/v2/posts/${pid}`;
+    const url = `https://${checkSite}/?rest_route=/wp/v2/posts/${pid}`;
 
     const res = await fetch(url);
     data = await res.json(); //replace image url to use proxy api
     data.content["rendered"] = data.content["rendered"].replaceAll(
-      `https://${config.BLOG_URL}/wp-content`,
+      `https://${checkSite}/wp-content`,
       "/api/wp-content"
     );
     data.content["rendered"] = data.content["rendered"].replaceAll(
-      `https://www.${config.BLOG_URL}/wp-content`,
+      `https://www.${checkSite}/wp-content`,
       "/api/wp-content"
     );
 
@@ -140,6 +152,7 @@ export async function getServerSideProps({ params, req, query }) {
         "",
       pid,
       referer: req?.headers?.referer ?? "no referer",
+      checkSite
     },
   };
 }
