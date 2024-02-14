@@ -1,6 +1,6 @@
-import dbConnect from "../mongodb/dbConnect";
+//import dbConnect from "../mongodb/dbConnect";
 import { useEffect } from "react";
-import Post from "../mongodb/Post";
+//import Post from "../mongodb/Post";
 import config from "../config";
 import Head from "next/head";
 
@@ -117,11 +117,11 @@ export async function getServerSideProps({ params, req, query }) {
 
  
   let data;
-  await dbConnect();
+  //await dbConnect();
 
   //check if post exist in mognodb
-  let post = await Post.findOne({ pid });
-  if (!post) {
+  //let post = await Post.findOne({ pid });
+  //if (!post) {
     console.log("fetching from wordpress");
     const url = `https://${config.BLOG_URL}/?rest_route=/wp/v2/posts/${pid}`;
 
@@ -137,16 +137,16 @@ export async function getServerSideProps({ params, req, query }) {
     );
 
     //save post to mongodb
-    const post = new Post({
-      pid,
-      data,
-    });
+   // const post = new Post({
+   //   pid,
+   //   data,
+   // });
 
-    await post.save();
-  } else {
-    console.log("found in mongodb");
-    data = post.data;
-  }
+   // await post.save();
+ // } else {
+ //   console.log("found in mongodb");
+ //   data = post.data;
+ // }
 
   return {
     props: {
