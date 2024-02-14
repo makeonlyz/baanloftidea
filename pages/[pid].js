@@ -1,6 +1,5 @@
-//import dbConnect from "../mongodb/dbConnect";
+
 import { useEffect } from "react";
-//import Post from "../mongodb/Post";
 import config from "../config";
 import Head from "next/head";
 
@@ -13,12 +12,7 @@ function Page({ data, redirect, pid, referer }) {
 
   let featurecontent = "";
   if (featureimage) {
-//     featureimage = featureimage
-//       .replaceAll(`https://${config.BLOG_URL}/wp-content`, "/api/wp-content")
-//       .replaceAll(
-//         `https://www.${config.BLOG_URL}/wp-content`,
-//         "/api/wp-content"
-//       );
+
     featurecontent = '<img  src="' + featureimage + '" >';
 
     //remove images from content if feature image is set
@@ -136,17 +130,6 @@ export async function getServerSideProps({ params, req, query }) {
       "/api/wp-content"
     );
 
-    //save post to mongodb
-   // const post = new Post({
-   //   pid,
-   //   data,
-   // });
-
-   // await post.save();
- // } else {
- //   console.log("found in mongodb");
- //   data = post.data;
- // }
 
   return {
     props: {
