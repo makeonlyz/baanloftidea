@@ -102,8 +102,8 @@ export async function getServerSideProps({ params, req, query }) {
   let checkSite;
   if (site === "a") {
       checkSite = 'https://www.a.com';
-  } else if (site === "b") {
-      checkSite = 'https://www.b.com';
+  } else if (site === "ag") {
+      checkSite = 'al.usnews.uk';
   } else if (site === "military") {
       checkSite = 'military.usnews.uk';
   } else {
