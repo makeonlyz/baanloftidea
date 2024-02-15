@@ -100,8 +100,8 @@ export async function getServerSideProps({ params, req, query }) {
  
   const site = params.pid.split("-")[2];
   let checkSite;
-  if (site === "a") {
-      checkSite = 'https://www.a.com';
+  if (site === "nk") {
+      checkSite = 'nk.usnews.uk';
   } else if (site === "ag") {
       checkSite = 'al.usnews.uk';
   } else if (site === "military") {
